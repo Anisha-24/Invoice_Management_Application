@@ -1,26 +1,41 @@
 package com.highradius.servlets;
 
-import com.highradius.implementation.InvoiceDao;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.*;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
 import com.highradius.implementation.InvoiceDaoImpl;
 import com.highradius.model.Invoice;
 
-import java.io.IOException;
-import java.util.List;
+@WebServlet("/DataLoadingServlet")
+public class DataLoadingServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private InvoiceDaoImpl invoiceDaoImpl;
+	List<Invoice> invoiceLit;
 
-public class DataLoadingServlet {
+	public DataLoadingServlet() throws SQLException {
+		super();
+		System.out.println("DLS Const Called");
+		invoiceDaoImpl = new InvoiceDaoImpl();
+	}
 
-    private InvoiceDao invoiceDao;
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-    public void init() {
-        invoiceDao = new InvoiceDaoImpl();
-    }
-
-    public List<Invoice> getInvoice() throws IOException {
-        return invoiceDao.getInvoice();
-    }
-
-    public static void main(String[] args) {
-
-    }
-
+		invoiceLit = invoiceDaoImpl.getInvoice();
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		Gson gson = new Gson();
+		String jsonString = gson.toJson(invoiceLit);
+		out.println(jsonString);
+		out.close();
+	}
 }

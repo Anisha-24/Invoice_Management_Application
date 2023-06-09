@@ -4,7 +4,8 @@ import com.highradius.model.Invoice;
 
 import java.util.List;
 
-public interface InvoiceDao {
+public interface InvoiceDao
+{ 
     List<Invoice> getInvoice();
     void insertInvoice(Invoice invoice);
     void updateInvoice(int id, Invoice invoice);
