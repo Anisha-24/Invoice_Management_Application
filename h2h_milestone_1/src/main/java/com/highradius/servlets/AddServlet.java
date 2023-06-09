@@ -16,6 +16,9 @@ import com.google.gson.Gson;
 import com.highradius.implementation.InvoiceDaoImpl;
 import com.highradius.model.Invoice;
 
+import java.sql.*;
+
+
 @WebServlet("/AddServlet")
 public class AddServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -39,12 +42,12 @@ public class AddServlet extends HttpServlet {
 		String jsonData = jsonBuilder.toString();
 		Gson gson = new Gson();
 		Invoice invoice = gson.fromJson(jsonData, Invoice.class);
-		try {
-			invoiceDaoImpl.insertInvoice(invoice);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			invoiceDaoImpl.insertInvoice(invoice);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		PrintWriter out = response.getWriter();
 		out.println("Data added successfully");
 		out.close();
